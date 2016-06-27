@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 //schema
 var movieSchema = mongoose.Schema({
 
-	/*	
+	
 	userId:{
 		type: String,
 		required: true
@@ -23,11 +23,6 @@ var movieSchema = mongoose.Schema({
 	},
 	Year:{
 		type: String
-	}, 
-	*/
-
-	Search: {
-		type: Object
 	}
 });
 
