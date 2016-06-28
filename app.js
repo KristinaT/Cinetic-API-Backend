@@ -23,7 +23,9 @@
   });
 
   app.get('/api/movie', function(req, res){
-  	Movie.getMovie(function(err, movie){
+    var user = req.query.param;
+        console.dir(user);
+  	Movie.getMovie(user, function(err, movie){
   		if(err){
   			throw err;
   		}
@@ -32,10 +34,13 @@
   });
 
   app.post('/api/movie', function(req, res){
-  	var movie = req.body;
-  	Movie.addMovie(movie , function(err, movie){
+    console.dir(req.body.userId);
+    console.dir(req.body.Search);
+    var user = req.body.userId;
+  	var movie = req.body.Search;
+  	Movie.addMovie(user, movie, function(err, movie){
   		if(err){
-  			throw err;
+  			res.send(err);
   		}
   		res.json(movie);
   	});
@@ -44,7 +49,7 @@
   app.get('/api/movie/:id', function(req, res){
   	Movie.getMovieById(req.params.id, function(err, movie){
   		if(err){
-  			throw err;
+  			res.send(err);
   		}
   		res.json(movie);
   	});
@@ -55,7 +60,7 @@
   	var movie = req.body;
   	Movie.updateMovie(id, movie, function(err, movie){
   		if(err){
-  			throw err;
+  			res.send(err);
   		}
   		res.json(movie);
   	});
@@ -64,7 +69,7 @@
   	var id = req.params.id;
   	Movie.removeMovie(id, function(err, movie){
   		if(err){
-  			throw err;
+  			res.send(err);
   		}
   		res.json(movie);
   	});

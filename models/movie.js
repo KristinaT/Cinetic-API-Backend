@@ -8,7 +8,8 @@ var movieSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	
+
+	/*
 	imdbID: {
 		type:String,
 		required: true
@@ -23,14 +24,21 @@ var movieSchema = mongoose.Schema({
 	},
 	Year:{
 		type: String
+	}, 
+	*/
+
+	Search: {
+		type: Array
 	}
 });
 
 var Movie = module.exports = mongoose.model('Movie', movieSchema);
 
 //Get watchlist
-module.exports.getMovie = function (callback, limit) {
-	Movie.find(callback).limit(limit);
+module.exports.getMovie = function (user,callback, limit) {
+	var user = { "userId": user };
+	console.log(user);
+	Movie.find(user,callback);
 }
 
 module.exports.getMovieById = function (movie, callback) {
@@ -38,8 +46,11 @@ module.exports.getMovieById = function (movie, callback) {
 	Movie.find(query, callback);
 }
 
-module.exports.addMovie = function ( movie,callback) {
-	Movie.create(movie, callback);
+module.exports.addMovie = function (user, movie, callback) {
+	var query = {userId: user};
+	var mov = {$push: {Search: movie}};
+	var safe =  {safe: true, upsert: true};
+	Movie.update(query,mov,safe,callback);
 }
 
 module.exports.updateMovie = function (id, movie, callback) {
