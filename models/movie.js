@@ -61,7 +61,8 @@ module.exports.updateMovie = function (id, movie, callback) {
 	Movie.findOneAndUpdate(query, update, options,movie, callback);
 }
 
-module.exports.removeMovie = function (id, callback) {
-	var query = {imdbID: {'$in':id}};
-	Movie.remove(query, callback);
+module.exports.removeMovie = function (movieID, user, callback) {
+	var query = {userId: user};
+	var mov = {$pull: {'Search': {'imdbID': movieID}}}
+	Movie.update(query,mov,callback)
 }

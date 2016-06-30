@@ -66,8 +66,9 @@
   	});
   });
   app.delete('/api/movie/:id', function(req,res){
-  	var id = req.params.id;
-  	Movie.removeMovie(id, function(err, movie){
+    var name = req.query.name;
+    var id = req.params.id;
+  	Movie.removeMovie(id, name, function(err, movie){
   		if(err){
   			res.send(err);
   		}
